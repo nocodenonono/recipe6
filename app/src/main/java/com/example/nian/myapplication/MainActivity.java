@@ -2,6 +2,8 @@ package com.example.nian.myapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -90,11 +92,21 @@ public final class MainActivity extends AppCompatActivity {
         ageInput = findViewById(R.id.ageInput);
         activityInput = findViewById(R.id.activityInput);
 
+        //set up button and disable it.
+        submitButton = findViewById(R.id.BUTTON);
+        submitButton.setEnabled(false);
+
+        // add TextWatcher to monitor user input.
+        genderInput.addTextChangedListener(watcher);
+        weightInput.addTextChangedListener(watcher);
+        heightInput.addTextChangedListener(watcher);
+        ageInput.addTextChangedListener(watcher);
+        activityInput.addTextChangedListener(watcher);
+
         //
         jsonResult = findViewById(R.id.jsonResultOutput);
 
-        //set button onclick action.
-        submitButton = findViewById(R.id.BUTTON);
+        //set up button handler.
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,4 +208,32 @@ public final class MainActivity extends AppCompatActivity {
         }
         return 0;
     }
-}
+
+    /** private method to check if all the fields are complete */
+    private boolean isEditTextEmpty(EditText edit) {
+        return edit.getText().toString().length() == 0;
+    }
+
+    /** update button status */
+    private final TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (isEditTextEmpty(weightInput) || isEditTextEmpty(heightInput) || isEditTextEmpty(ageInput) || isEditTextEmpty(activityInput)
+                    || isEditTextEmpty(genderInput)) {
+                submitButton.setEnabled(false);
+            } else {
+                submitButton.setEnabled(true);
+            }
+        }
+        };
+    }
