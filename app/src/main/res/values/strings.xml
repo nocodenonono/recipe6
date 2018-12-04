@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="gender_m_f">Gender(M/F)</string>
+    <string name="weight_kg">Weight(kg)</string>
+    <string name="height_cm">Height(cm)</string>
+    <string name="activity_level_little_medium_high">activity level(little/medium/high)</string>
+    <string name="age">age</string>
+    <string name="generate">Generate</string>
+    <string name="you_are_beautiful">You are beautiful</string>
 </resources>

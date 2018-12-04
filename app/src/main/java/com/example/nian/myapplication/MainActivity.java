@@ -1,13 +1,12 @@
 package com.example.nian.myapplication;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -55,12 +54,15 @@ public final class MainActivity extends AppCompatActivity {
     /**button to submit users'input.*/
     Button submitButton;
 
-    /**Set up error msg visible to users*/
+    /** text to display */
+    TextView jsonResult;
+
+    /**Set up error msg visible to users
     Context context = getApplicationContext();
     CharSequence text = "Please type valid inputs follow the hints";
     int duration = Toast.LENGTH_SHORT;
 
-    Toast toast = Toast.makeText(context, text, duration);
+    Toast toast = Toast.makeText(context, text, duration);*/
 
     /** Default logging tag for messages from the main activity. */
     private static final String TAG = "Lab12:Main";
@@ -90,6 +92,9 @@ public final class MainActivity extends AppCompatActivity {
         ageInput = findViewById(R.id.ageInput);
         activityInput = findViewById(R.id.activityInput);
 
+        //
+        jsonResult = findViewById(R.id.jsonResultOutput);
+
         //set button onclick action.
         submitButton = findViewById(R.id.BUTTON);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -105,13 +110,17 @@ public final class MainActivity extends AppCompatActivity {
                 try {
                     calorieCalculator();
                 } catch (Exception e) {
-                    toast.show(); // tell user that you enter invalid inputs.
+                    //toast.show(); // tell user that you enter invalid inputs.
                 }
 
                 // Now we know we have valid inputs, we want to make sure we don't have 0 for our calorie need.
-                calorieNeed = calorieCalculator();
-                if (calorieNeed <= 0) {
-                    toast.show(); // tell user that you enter invalid inputs.
+                try {
+                    calorieNeed = calorieCalculator();
+                    if (calorieNeed <= 0) {
+                        //toast.show(); // tell user that you enter invalid inputs.
+                    }
+                } catch (Exception e) {
+                    e.getStackTrace();
                 }
 
                 // Now we have a proper calorie needs, we want to call our API to give us recipes.
@@ -120,9 +129,8 @@ public final class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.getStackTrace();
                 }
-
                 //Now, we want to display our Json results in TextView.
-
+                jsonResult.setText("You are beautiful");
             }
         });
     }

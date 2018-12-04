@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Gender(M/F)"
+            android:hint="@string/gender_m_f"
             android:inputType="text" />
 
         <EditText
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Weight(kg)"
+            android:hint="@string/weight_kg"
             android:inputType="number" />
 
         <EditText
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Height(cm)"
+            android:hint="@string/height_cm"
             android:inputType="number" />
 
         <EditText
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="activity level(little/medium/high)"
+            android:hint="@string/activity_level_little_medium_high"
             android:inputType="text" />
 
         <EditText
@@ -51,30 +51,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="age"
+            android:hint="@string/age"
             android:inputType="number" />
 
         <Button
             android:id="@+id/BUTTON"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Generate" />
+            android:text="@string/generate"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/jsonResultOutput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:layout_height="wrap_content" />
         </ScrollView>
-
-        <TextView
-            android:id="@+id/jsonResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
 
     </LinearLayout>
 </FrameLayout>
