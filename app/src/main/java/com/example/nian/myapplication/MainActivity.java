@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -57,12 +58,9 @@ public final class MainActivity extends AppCompatActivity {
     /** text to display */
     TextView jsonResult;
 
-    /**Set up error msg visible to users
-    Context context = getApplicationContext();
+    /**Set up error msg visible to users*/
     CharSequence text = "Please type valid inputs follow the hints";
-    int duration = Toast.LENGTH_SHORT;
-
-    Toast toast = Toast.makeText(context, text, duration);*/
+    int duration = Toast.LENGTH_LONG;
 
     /** Default logging tag for messages from the main activity. */
     private static final String TAG = "Lab12:Main";
@@ -110,27 +108,28 @@ public final class MainActivity extends AppCompatActivity {
                 try {
                     calorieCalculator();
                 } catch (Exception e) {
-                    //toast.show(); // tell user that you enter invalid inputs.
+                    Toast.makeText(MainActivity.this, text, duration).show(); // tell user that you enter invalid inputs.
                 }
 
                 // Now we know we have valid inputs, we want to make sure we don't have 0 for our calorie need.
                 try {
                     calorieNeed = calorieCalculator();
                     if (calorieNeed <= 0) {
-                        //toast.show(); // tell user that you enter invalid inputs.
+                        Toast.makeText(MainActivity.this, text, duration).show(); // tell user that you enter invalid inputs.
                     }
                 } catch (Exception e) {
-                    e.getStackTrace();
+                    //e.getStackTrace();
+                    Toast.makeText(MainActivity.this, text, duration).show();
                 }
 
                 // Now we have a proper calorie needs, we want to call our API to give us recipes.
                 try {
                     startAPICall();
                 } catch (Exception e) {
-                    e.getStackTrace();
+                    //e.getStackTrace();
                 }
                 //Now, we want to display our Json results in TextView.
-                jsonResult.setText("You are beautiful");
+                jsonResult.setText("lol");
             }
         });
     }
