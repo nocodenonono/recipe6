@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Picasso;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -182,7 +183,9 @@ public final class MainActivity extends AppCompatActivity {
                     //e.getStackTrace();
                 }
                 //Now, we want to display our Json results in TextView.
-                firstMeal.setText("Your calorie needs for one day is: " + calorieNeed);
+                firstMeal.setText("Name: " + firstMealName + "\n" + "Ready time in minutes: " + firstMealReadyTime + "\n" + "Servings: " + firstMealServing);
+                secondMeal.setText("Name: " + secondMealName + "\n" + "Ready time in minutes: " + secondMealReadyTime + "\n" + "Servings: " + secondMealServing);
+                thirdMeal.setText("Name: " + thirdMealName + "\n" + "Ready time in minutes: " + thirdMealReadyTime + "\n" + "Servings: " + thirdMealServing);
             }
         });
     }
@@ -216,6 +219,7 @@ public final class MainActivity extends AppCompatActivity {
                                 firstMealReadyTime = firstMeal.get("readyInMinutes").getAsInt();
                                 firstMealServing = firstMeal.get("servings").getAsInt();
                                 firstMealImageURL = "https://spoonacular.com/recipeImages/" + firstMealID + "-" + "240x150" + ".jpg";
+                                Picasso.get().load(firstMealImageURL).into(secondImage);
                             } catch (Exception e) {
                                 Log.d("Something goes wrong", "GG");
                             }
@@ -228,6 +232,7 @@ public final class MainActivity extends AppCompatActivity {
                                 secondMealReadyTime = secondMeal.get("readyInMinutes").getAsInt();
                                 secondMealServing = secondMeal.get("servings").getAsInt();
                                 secondMealImageURL = "https://spoonacular.com/recipeImages/" + secondMealID + "-" + "240x150" + ".jpg";
+                                Picasso.get().load(secondMealImageURL).into(secondImage);
                             } catch (Exception e) {
                                 Log.d(TAG, "WTF is happening");
                             }
@@ -240,10 +245,10 @@ public final class MainActivity extends AppCompatActivity {
                                 thirdMealReadyTime = thirdMeal.get("readyInMinutes").getAsInt();
                                 thirdMealServing = thirdMeal.get("servings").getAsInt();
                                 thirdMealImageURL = "https://spoonacular.com/recipeImages/" + thirdMealID + "-" + "240x150" + ".jpg";
+                                Picasso.get().load(thirdMealImageURL).into(thirdImage);
                             } catch (Exception e) {
                                 Log.d(TAG, "Seems like you are doing something wrong");
                             }
-
                         }
                     }, new Response.ErrorListener() {
                 @Override
