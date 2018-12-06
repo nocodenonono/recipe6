@@ -1,5 +1,6 @@
 package com.example.nian.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -32,23 +33,23 @@ import java.util.HashMap;
 /**
  * Main screen for our API testing app.
  */
-public final class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * final parameters.
      */
-    final double littlePhysicalActivityLevel = 1.53;
-    final double mediumPhysicalActivityLevel = 1.76;
-    final double highPhysicalActivityLevel = 2.25;
+    final protected double littlePhysicalActivityLevel = 1.53;
+    final protected double mediumPhysicalActivityLevel = 1.76;
+    final protected double highPhysicalActivityLevel = 2.25;
 
     /**
      *inputs to be initialized.
      */
-    private String gender;
-    private String activity;
-    private double weight;
-    private double height;
-    private int age;
+    protected String gender;
+    protected String activity;
+    protected double weight;
+    protected double height;
+    protected int age;
     protected double calorieNeed;
 
     /**
@@ -64,9 +65,9 @@ public final class MainActivity extends AppCompatActivity {
     Button submitButton;
 
     /** text to display */
-    TextView firstMeal;
-    TextView secondMeal;
-    TextView thirdMeal;
+    protected TextView firstMeal;
+    protected TextView secondMeal;
+    protected TextView thirdMeal;
 
     /**Images to view*/
     ImageView firstImage;
@@ -78,31 +79,31 @@ public final class MainActivity extends AppCompatActivity {
     int duration = Toast.LENGTH_LONG;
 
     /** Default logging tag for messages from the main activity. */
-    private static final String TAG = "RECIPE";
+    protected static final String TAG = "RECIPE";
 
     /** Request queue for our network requests. */
-    private static RequestQueue requestQueue;
+    protected static RequestQueue requestQueue;
 
     /**First meal's information. */
-    private String firstMealName;
-    private int firstMealID;
-    private int firstMealReadyTime;
-    private String firstMealImageURL;
-    private int firstMealServing;
+    protected String firstMealName;
+    protected String firstMealImage;
+    protected int firstMealReadyTime;
+    protected String firstMealImageURL;
+    protected int firstMealServing;
 
     /**Second meal's information. */
-    private String secondMealName;
-    private int secondMealID;
-    private int secondMealReadyTime;
-    private String secondMealImageURL;
-    private int secondMealServing;
+    protected String secondMealName;
+    protected String secondMealImage;
+    protected int secondMealReadyTime;
+    protected String secondMealImageURL;
+    protected int secondMealServing;
 
     /**Third meal's information. */
-    private String thirdMealName;
-    private int thirdMealID;
-    private int thirdMealReadyTime;
-    private String thirdMealImageURL;
-    private int thirdMealServing;
+    protected String thirdMealName;
+    protected String thirdMealImage;
+    protected int thirdMealReadyTime;
+    protected String thirdMealImageURL;
+    protected int thirdMealServing;
 
     /**
      * Run when our activity comes into view.
@@ -180,12 +181,21 @@ public final class MainActivity extends AppCompatActivity {
                 try {
                     startAPICall();
                 } catch (Exception e) {
-                    //e.getStackTrace();
+                    e.getStackTrace();
                 }
+
                 //Now, we want to display our Json results in TextView.
-                firstMeal.setText("Name: " + firstMealName + "\n" + "Ready time in minutes: " + firstMealReadyTime + "\n" + "Servings: " + firstMealServing);
-                secondMeal.setText("Name: " + secondMealName + "\n" + "Ready time in minutes: " + secondMealReadyTime + "\n" + "Servings: " + secondMealServing);
-                thirdMeal.setText("Name: " + thirdMealName + "\n" + "Ready time in minutes: " + thirdMealReadyTime + "\n" + "Servings: " + thirdMealServing);
+                try {
+                    firstMeal.setText("Name: " + firstMealName + "\n" + "Ready time in minutes: " + firstMealReadyTime + "\n" + "Servings: " + firstMealServing);
+                    secondMeal.setText("Name: " + secondMealName + "\n" + "Ready time in minutes: " + secondMealReadyTime + "\n" + "Servings: " + secondMealServing);
+                    thirdMeal.setText("Name: " + thirdMealName + "\n" + "Ready time in minutes: " + thirdMealReadyTime + "\n" + "Servings: " + thirdMealServing);
+                } catch (NullPointerException e) {
+                    Log.d(TAG, "Why is this happening to me");
+                }
+
+                //Change to display activity.
+                //Intent intent = new Intent(MainActivity.this, displayActivity.class);
+                //startActivity(intent);
             }
         });
     }
@@ -193,7 +203,7 @@ public final class MainActivity extends AppCompatActivity {
     /**
      * Make an API call.
      */
-    void startAPICall() {
+    protected void startAPICall() {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
@@ -214,12 +224,12 @@ public final class MainActivity extends AppCompatActivity {
                             //Retrieve first meals' ID, NAME, AND READY TIME.
                             try {
                                 JsonObject firstMeal = recipes.get(0).getAsJsonObject();
-                                firstMealID = firstMeal.get("id").getAsInt();
                                 firstMealName = firstMeal.get("title").getAsString();
+                                firstMealImage = firstMeal.get("image").getAsString();
                                 firstMealReadyTime = firstMeal.get("readyInMinutes").getAsInt();
                                 firstMealServing = firstMeal.get("servings").getAsInt();
-                                firstMealImageURL = "https://spoonacular.com/recipeImages/" + firstMealID + "-" + "240x150" + ".jpg";
-                                Picasso.get().load(firstMealImageURL).into(secondImage);
+                                firstMealImageURL = "https://spoonacular.com/recipeImages/" + firstMealImage;
+                                Picasso.get().load(firstMealImageURL).into(firstImage);
                             } catch (Exception e) {
                                 Log.d("Something goes wrong", "GG");
                             }
@@ -227,11 +237,11 @@ public final class MainActivity extends AppCompatActivity {
                             //Retrieve second meals' ID, NAME, AND READY TIME.
                             try {
                                 JsonObject secondMeal = recipes.get(1).getAsJsonObject();
-                                secondMealID = secondMeal.get("id").getAsInt();
                                 secondMealName = secondMeal.get("title").getAsString();
+                                secondMealImage = secondMeal.get("image").getAsString();
                                 secondMealReadyTime = secondMeal.get("readyInMinutes").getAsInt();
                                 secondMealServing = secondMeal.get("servings").getAsInt();
-                                secondMealImageURL = "https://spoonacular.com/recipeImages/" + secondMealID + "-" + "240x150" + ".jpg";
+                                secondMealImageURL = "https://spoonacular.com/recipeImages/" + secondMealImage;
                                 Picasso.get().load(secondMealImageURL).into(secondImage);
                             } catch (Exception e) {
                                 Log.d(TAG, "WTF is happening");
@@ -240,11 +250,11 @@ public final class MainActivity extends AppCompatActivity {
                             //Retrieve third meals' ID, NAME, AND READY TIME.
                             try {
                                 JsonObject thirdMeal = recipes.get(2).getAsJsonObject();
-                                thirdMealID = thirdMeal.get("id").getAsInt();
+                                thirdMealImage = thirdMeal.get("image").getAsString();
                                 thirdMealName = thirdMeal.get("title").getAsString();
                                 thirdMealReadyTime = thirdMeal.get("readyInMinutes").getAsInt();
                                 thirdMealServing = thirdMeal.get("servings").getAsInt();
-                                thirdMealImageURL = "https://spoonacular.com/recipeImages/" + thirdMealID + "-" + "240x150" + ".jpg";
+                                thirdMealImageURL = "https://spoonacular.com/recipeImages/" + thirdMealImage;
                                 Picasso.get().load(thirdMealImageURL).into(thirdImage);
                             } catch (Exception e) {
                                 Log.d(TAG, "Seems like you are doing something wrong");
@@ -275,7 +285,7 @@ public final class MainActivity extends AppCompatActivity {
     /**
      * Calculate the calories one need that day.
      */
-    private double calorieCalculator() {
+    protected double calorieCalculator() {
         if (gender.equals("M")) {
             double BMR = 10 * weight + 6.25 * height - 5 * age + 5;
             switch (activity) {
@@ -327,4 +337,4 @@ public final class MainActivity extends AppCompatActivity {
             }
         }
         };
-    }
+}

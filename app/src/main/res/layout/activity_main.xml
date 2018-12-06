@@ -58,11 +58,11 @@
             android:id="@+id/BUTTON"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/generate" />
+            android:text="@string/generate"/>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="38dp">
 
             <TextView
                 android:id="@+id/firstMeal"
@@ -73,30 +73,30 @@
         <ImageView
             android:id="@+id/firstMealImageInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
             android:contentDescription="@string/lol"
             android:src="@mipmap/ic_launcher" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="49dp">
+            android:layout_height="38dp">
 
             <TextView
                 android:id="@+id/secondMeal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="84dp" />
         </ScrollView>
 
         <ImageView
             android:id="@+id/secondMealImageInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
             android:contentDescription="@string/lol"
             android:src="@mipmap/ic_launcher" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="38dp">
 
             <TextView
                 android:id="@+id/thirdMeal"
@@ -106,8 +106,8 @@
 
         <ImageView
             android:id="@+id/thirdMealImageInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
             android:contentDescription="@string/lol"
             android:src="@mipmap/ic_launcher" />
 
