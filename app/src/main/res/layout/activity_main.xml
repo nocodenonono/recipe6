@@ -60,57 +60,6 @@
             android:layout_height="wrap_content"
             android:text="@string/generate"/>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="38dp">
-
-            <TextView
-                android:id="@+id/firstMeal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
-
-        <ImageView
-            android:id="@+id/firstMealImageInput"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:contentDescription="@string/lol"
-            android:src="@mipmap/ic_launcher" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="38dp">
-
-            <TextView
-                android:id="@+id/secondMeal"
-                android:layout_width="match_parent"
-                android:layout_height="84dp" />
-        </ScrollView>
-
-        <ImageView
-            android:id="@+id/secondMealImageInput"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:contentDescription="@string/lol"
-            android:src="@mipmap/ic_launcher" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="38dp">
-
-            <TextView
-                android:id="@+id/thirdMeal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
-
-        <ImageView
-            android:id="@+id/thirdMealImageInput"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:contentDescription="@string/lol"
-            android:src="@mipmap/ic_launcher" />
-
     </LinearLayout>
 
 </FrameLayout>

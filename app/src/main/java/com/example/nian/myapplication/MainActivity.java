@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,9 +21,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Picasso;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -50,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected double weight;
     protected double height;
     protected int age;
-    protected double calorieNeed;
+    protected int calorieNeed;
 
     /**
      *  Three inputs get from users.
@@ -63,16 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**button to submit users'input.*/
     Button submitButton;
-
-    /** text to display */
-    protected TextView firstMeal;
-    protected TextView secondMeal;
-    protected TextView thirdMeal;
-
-    /**Images to view*/
-    ImageView firstImage;
-    ImageView secondImage;
-    ImageView thirdImage;
 
     /**Set up error msg visible to users*/
     CharSequence text = "Please type valid inputs follow the hints";
@@ -127,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         ageInput = findViewById(R.id.ageInput);
         activityInput = findViewById(R.id.activityInput);
 
-
         //set up button and disable it.
         submitButton = findViewById(R.id.BUTTON);
         submitButton.setEnabled(false);
@@ -138,16 +123,6 @@ public class MainActivity extends AppCompatActivity {
         heightInput.addTextChangedListener(watcher);
         ageInput.addTextChangedListener(watcher);
         activityInput.addTextChangedListener(watcher);
-
-        //The Json results retrieved from the web API.
-        firstMeal = findViewById(R.id.firstMeal);
-        secondMeal = findViewById(R.id.secondMeal);
-        thirdMeal = findViewById(R.id.thirdMeal);
-
-        //The images retrieved from the web API
-        firstImage = findViewById(R.id.firstMealImageInput);
-        secondImage = findViewById(R.id.secondMealImageInput);
-        thirdImage = findViewById(R.id.thirdMealImageInput);
 
         //set up button handler.
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -184,18 +159,9 @@ public class MainActivity extends AppCompatActivity {
                     e.getStackTrace();
                 }
 
-                //Now, we want to display our Json results in TextView.
-                try {
-                    firstMeal.setText("Name: " + firstMealName + "\n" + "Ready time in minutes: " + firstMealReadyTime + "\n" + "Servings: " + firstMealServing);
-                    secondMeal.setText("Name: " + secondMealName + "\n" + "Ready time in minutes: " + secondMealReadyTime + "\n" + "Servings: " + secondMealServing);
-                    thirdMeal.setText("Name: " + thirdMealName + "\n" + "Ready time in minutes: " + thirdMealReadyTime + "\n" + "Servings: " + thirdMealServing);
-                } catch (NullPointerException e) {
-                    Log.d(TAG, "Why is this happening to me");
-                }
-
                 //Change to display activity.
-                //Intent intent = new Intent(MainActivity.this, displayActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, displayActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -229,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                                 firstMealReadyTime = firstMeal.get("readyInMinutes").getAsInt();
                                 firstMealServing = firstMeal.get("servings").getAsInt();
                                 firstMealImageURL = "https://spoonacular.com/recipeImages/" + firstMealImage;
-                                Picasso.get().load(firstMealImageURL).into(firstImage);
+                                /*Picasso.get().load(firstMealImageURL).into(firstImage);*/
                             } catch (Exception e) {
                                 Log.d("Something goes wrong", "GG");
                             }
@@ -242,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                                 secondMealReadyTime = secondMeal.get("readyInMinutes").getAsInt();
                                 secondMealServing = secondMeal.get("servings").getAsInt();
                                 secondMealImageURL = "https://spoonacular.com/recipeImages/" + secondMealImage;
-                                Picasso.get().load(secondMealImageURL).into(secondImage);
+                                /*Picasso.get().load(secondMealImageURL).into(secondImage);*/
                             } catch (Exception e) {
                                 Log.d(TAG, "WTF is happening");
                             }
@@ -255,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                                 thirdMealReadyTime = thirdMeal.get("readyInMinutes").getAsInt();
                                 thirdMealServing = thirdMeal.get("servings").getAsInt();
                                 thirdMealImageURL = "https://spoonacular.com/recipeImages/" + thirdMealImage;
-                                Picasso.get().load(thirdMealImageURL).into(thirdImage);
+                                /*Picasso.get().load(thirdMealImageURL).into(thirdImage);*/
                             } catch (Exception e) {
                                 Log.d(TAG, "Seems like you are doing something wrong");
                             }
@@ -285,26 +251,26 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calculate the calories one need that day.
      */
-    protected double calorieCalculator() {
+    protected int calorieCalculator() {
         if (gender.equals("M")) {
             double BMR = 10 * weight + 6.25 * height - 5 * age + 5;
             switch (activity) {
                 case "little":
-                    return BMR * littlePhysicalActivityLevel;
+                    return (int) Math.round(BMR * littlePhysicalActivityLevel);
                 case "medium":
-                    return BMR * mediumPhysicalActivityLevel;
+                    return (int) Math.round(BMR * mediumPhysicalActivityLevel);
                 case "high":
-                    return BMR * highPhysicalActivityLevel;
+                    return (int) Math.round(BMR * highPhysicalActivityLevel);
             }
         } else if (gender.equals("F")) {
             double BMR = 10 * weight + 6.25 * height - 5 * age - 161;
             switch (activity) {
                 case "little":
-                    return BMR * littlePhysicalActivityLevel;
+                    return (int) Math.round(BMR * littlePhysicalActivityLevel);
                 case "medium":
-                    return BMR * mediumPhysicalActivityLevel;
+                    return (int) Math.round(BMR * mediumPhysicalActivityLevel);
                 case "high":
-                    return BMR * highPhysicalActivityLevel;
+                    return (int) Math.round(BMR * highPhysicalActivityLevel);
             }
         }
         return 0;

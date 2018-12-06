@@ -9,7 +9,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="84dp">
+        android:layout_height="54dp">
 
         <TextView
             android:id="@+id/firstMeal"
@@ -26,7 +26,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="84dp">
+        android:layout_height="54dp">
 
         <TextView
             android:id="@+id/secondMeal"
@@ -43,7 +43,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="84dp">
+        android:layout_height="54dp">
 
         <TextView
             android:id="@+id/thirdMeal"
@@ -57,6 +57,12 @@
         android:layout_height="84dp"
         android:contentDescription="@string/lol"
         android:src="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/getNewOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="get a new recipe" />
 
 
 </LinearLayout>
