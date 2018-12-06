@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -23,6 +24,10 @@ public class displayActivity extends MainActivity {
 
     /** get new recipe button */
     Button newButton;
+
+    /**Set up error msg visible to users*/
+    CharSequence text = "Sorry, Something went wrong, please hit the button again";
+    int duration = Toast.LENGTH_SHORT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,20 @@ public class displayActivity extends MainActivity {
         //set up button.
         newButton = findViewById(R.id.getNewOne);
 
+        if (firstMealName == null) {
+            Toast.makeText(displayActivity.this, text, duration).show();
+        }
+        try {
+            firstMeal.setText("Name: " + firstMealName + "\n" + "Ready time in minutes: " + firstMealReadyTime + "\n" + "Servings: " + firstMealServing);
+            secondMeal.setText("Name: " + secondMealName + "\n" + "Ready time in minutes: " + secondMealReadyTime + "\n" + "Servings: " + secondMealServing);
+            thirdMeal.setText("Name: " + thirdMealName + "\n" + "Ready time in minutes: " + thirdMealReadyTime + "\n" + "Servings: " + thirdMealServing);
+            Picasso.get().load(firstMealImageURL).into(firstImage);
+            Picasso.get().load(secondMealImageURL).into(secondImage);
+            Picasso.get().load(thirdMealImageURL).into(thirdImage);
+        } catch (NullPointerException e) {
+            Log.d(TAG, "Why is this happening to me");
+        }
+
         //New button.
         newButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +71,9 @@ public class displayActivity extends MainActivity {
                     e.getStackTrace();
                 }
                 try {
+                    if (firstMealName == null) {
+                        Toast.makeText(displayActivity.this, text, duration).show();
+                    }
                     firstMeal.setText("Name: " + firstMealName + "\n" + "Ready time in minutes: " + firstMealReadyTime + "\n" + "Servings: " + firstMealServing);
                     secondMeal.setText("Name: " + secondMealName + "\n" + "Ready time in minutes: " + secondMealReadyTime + "\n" + "Servings: " + secondMealServing);
                     thirdMeal.setText("Name: " + thirdMealName + "\n" + "Ready time in minutes: " + thirdMealReadyTime + "\n" + "Servings: " + thirdMealServing);
@@ -63,16 +85,5 @@ public class displayActivity extends MainActivity {
                 }
             }
         });
-
-        try {
-            firstMeal.setText("Name: " + firstMealName + "\n" + "Ready time in minutes: " + firstMealReadyTime + "\n" + "Servings: " + firstMealServing);
-            secondMeal.setText("Name: " + secondMealName + "\n" + "Ready time in minutes: " + secondMealReadyTime + "\n" + "Servings: " + secondMealServing);
-            thirdMeal.setText("Name: " + thirdMealName + "\n" + "Ready time in minutes: " + thirdMealReadyTime + "\n" + "Servings: " + thirdMealServing);
-            Picasso.get().load(firstMealImageURL).into(firstImage);
-            Picasso.get().load(secondMealImageURL).into(secondImage);
-            Picasso.get().load(thirdMealImageURL).into(thirdImage);
-        } catch (NullPointerException e) {
-            Log.d(TAG, "Why is this happening to me");
-        }
     }
 }
