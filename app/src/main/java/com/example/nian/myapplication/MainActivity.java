@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -58,17 +63,45 @@ public final class MainActivity extends AppCompatActivity {
     Button submitButton;
 
     /** text to display */
-    TextView jsonResult;
+    TextView firstMeal;
+    TextView secondMeal;
+    TextView thirdMeal;
+
+    /**Images to view*/
+    ImageView firstImage;
+    ImageView secondImage;
+    ImageView thirdImage;
 
     /**Set up error msg visible to users*/
     CharSequence text = "Please type valid inputs follow the hints";
     int duration = Toast.LENGTH_LONG;
 
     /** Default logging tag for messages from the main activity. */
-    private static final String TAG = "Lab12:Main";
+    private static final String TAG = "RECIPE";
 
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
+
+    /**First meal's information. */
+    private String firstMealName;
+    private int firstMealID;
+    private int firstMealReadyTime;
+    private String firstMealImageURL;
+    private int firstMealServing;
+
+    /**Second meal's information. */
+    private String secondMealName;
+    private int secondMealID;
+    private int secondMealReadyTime;
+    private String secondMealImageURL;
+    private int secondMealServing;
+
+    /**Third meal's information. */
+    private String thirdMealName;
+    private int thirdMealID;
+    private int thirdMealReadyTime;
+    private String thirdMealImageURL;
+    private int thirdMealServing;
 
     /**
      * Run when our activity comes into view.
@@ -92,6 +125,7 @@ public final class MainActivity extends AppCompatActivity {
         ageInput = findViewById(R.id.ageInput);
         activityInput = findViewById(R.id.activityInput);
 
+
         //set up button and disable it.
         submitButton = findViewById(R.id.BUTTON);
         submitButton.setEnabled(false);
@@ -103,8 +137,15 @@ public final class MainActivity extends AppCompatActivity {
         ageInput.addTextChangedListener(watcher);
         activityInput.addTextChangedListener(watcher);
 
-        //
-        jsonResult = findViewById(R.id.jsonResultOutput);
+        //The Json results retrieved from the web API.
+        firstMeal = findViewById(R.id.firstMeal);
+        secondMeal = findViewById(R.id.secondMeal);
+        thirdMeal = findViewById(R.id.thirdMeal);
+
+        //The images retrieved from the web API
+        firstImage = findViewById(R.id.firstMealImageInput);
+        secondImage = findViewById(R.id.secondMealImageInput);
+        thirdImage = findViewById(R.id.thirdMealImageInput);
 
         //set up button handler.
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +182,7 @@ public final class MainActivity extends AppCompatActivity {
                     //e.getStackTrace();
                 }
                 //Now, we want to display our Json results in TextView.
-                jsonResult.setText("lol");
+                firstMeal.setText("Your calorie needs for one day is: " + calorieNeed);
             }
         });
     }
@@ -153,16 +194,61 @@ public final class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=" + calorieNeed + "&timeFrame=day",
+                    "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/mealplans/generate?targetCalories=" + calorieNeed +
+                            "&timeFrame=day",
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(final JSONObject response) {
-                            Log.d(TAG, response.toString());
+
+                            Log.d(TAG, "The response is " + response.toString());
+
+                            //First instantiate a JSON parser and get the Json array.
+                            JsonParser parser = new JsonParser();
+                            JsonObject result = parser.parse(response.toString()).getAsJsonObject();
+                            JsonArray recipes = result.getAsJsonArray("meals");
+
+                            //Retrieve first meals' ID, NAME, AND READY TIME.
+                            try {
+                                JsonObject firstMeal = recipes.get(0).getAsJsonObject();
+                                firstMealID = firstMeal.get("id").getAsInt();
+                                firstMealName = firstMeal.get("title").getAsString();
+                                firstMealReadyTime = firstMeal.get("readyInMinutes").getAsInt();
+                                firstMealServing = firstMeal.get("servings").getAsInt();
+                                firstMealImageURL = "https://spoonacular.com/recipeImages/" + firstMealID + "-" + "240x150" + ".jpg";
+                            } catch (Exception e) {
+                                Log.d("Something goes wrong", "GG");
+                            }
+
+                            //Retrieve second meals' ID, NAME, AND READY TIME.
+                            try {
+                                JsonObject secondMeal = recipes.get(1).getAsJsonObject();
+                                secondMealID = secondMeal.get("id").getAsInt();
+                                secondMealName = secondMeal.get("title").getAsString();
+                                secondMealReadyTime = secondMeal.get("readyInMinutes").getAsInt();
+                                secondMealServing = secondMeal.get("servings").getAsInt();
+                                secondMealImageURL = "https://spoonacular.com/recipeImages/" + secondMealID + "-" + "240x150" + ".jpg";
+                            } catch (Exception e) {
+                                Log.d(TAG, "WTF is happening");
+                            }
+
+                            //Retrieve third meals' ID, NAME, AND READY TIME.
+                            try {
+                                JsonObject thirdMeal = recipes.get(2).getAsJsonObject();
+                                thirdMealID = thirdMeal.get("id").getAsInt();
+                                thirdMealName = thirdMeal.get("title").getAsString();
+                                thirdMealReadyTime = thirdMeal.get("readyInMinutes").getAsInt();
+                                thirdMealServing = thirdMeal.get("servings").getAsInt();
+                                thirdMealImageURL = "https://spoonacular.com/recipeImages/" + thirdMealID + "-" + "240x150" + ".jpg";
+                            } catch (Exception e) {
+                                Log.d(TAG, "Seems like you are doing something wrong");
+                            }
+
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
+                    Log.d("ERROR", "hello");
                     Log.w(TAG, error.toString());
                 }
             }) {

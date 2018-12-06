@@ -65,10 +65,52 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/jsonResultOutput"
+                android:id="@+id/firstMeal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </ScrollView>
 
+        <ImageView
+            android:id="@+id/firstMealImageInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/lol"
+            android:src="@mipmap/ic_launcher" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/secondMeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/secondMealImageInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/lol"
+            android:src="@mipmap/ic_launcher" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/thirdMeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/thirdMealImageInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/lol"
+            android:src="@mipmap/ic_launcher" />
+
     </LinearLayout>
+
 </FrameLayout>
